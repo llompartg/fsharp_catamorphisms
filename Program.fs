@@ -1,11 +1,10 @@
-﻿open System
-
-
-type FileSystemItem =
+﻿type FileSystemItem =
     | File of File
     | Directory of Directory
 and File = {name: string; size: int}
 and Directory = {name: string; items: FileSystemItem list }
+
+
 
 [<EntryPoint>]
 let main argv =
@@ -45,6 +44,17 @@ let main argv =
 
         catamorphismSystemDirectory fFile fDirectory item
 
-    calculateSize root |> printfn "%i"
 
+    let existsFileWithGivenName (item:FileSystemItem) (name: string): bool =
+        let fFile (file: File): bool =
+            file.name = name
+
+        let fDirectory (directory: Directory) (results: bool list): bool =
+            let result = results |> List.exists (id)
+            result
+
+        catamorphismSystemDirectory fFile fDirectory item    
+
+    calculateSize root |> printfn "%i"
+    existsFileWithGivenName root "MySuperFile" |> printfn "%A"
     0 // return an integer exit code
